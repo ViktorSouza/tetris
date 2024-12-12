@@ -4,11 +4,18 @@ colors = {""}
 
 
 class Peca:
+    ## Cria uma instância de uma peça.
+    #  @param self Ponteiro para o próprio objeto.
+    #  @param initial_row posição da linha na qual a peça estará inicialmente.
+    #  @param initial_col posição da coluna na qual a peça estará inicialmente.
     def __init__(self, initial_row, initial_col):
-        # Por convenção, row e col definem a posição do centro
+        ## Por convenção, row é a posição do centro da peça.
         self.row = initial_row
+        ## Por convenção, col é a posição do centro da peça.
         self.col = initial_col
+        ## Símbolo que representará a peça no terminal.
         self.symbol = "$"
+        ## Lista de tuplas com posições dos blocos de uma peça.
         self.blocks = [
             {"row": 0, "col": 0},
             {"row": -1, "col": 0},
@@ -16,14 +23,22 @@ class Peca:
             {"row": 1, "col": 1},
         ]
 
-    def update_position(self, dy, dx):
+    ## Modifica a posição da peça, tanto linhas quanto colunas.
+    #  @param self Ponteiro para o próprio objeto.
+    #  @param dy número de vezes que a peça deverá ser deslocada em relação às linhas. Um valor positivo indica que a peça será deslocada para baixo dy vezes
+    #  @param dx número de vezes que a peça deverá ser deslocada em relação às colunas. Um valor positivo indica que a peça será deslocada para a direita dx vezes
+    def update_position(self, dy: int, dx: int):
         self.row += dy
         self.col += dx
 
-    def rotate_left(self):
+    ## Rotaciona, em sentido horário, a peça em 90 graus.
+    #  @param self Ponteiro para o próprio objeto.
+    def rotate_clockwise(self):
         self._rotate(clockwise=False)
 
-    def rotate_right(self):
+    ## Rotaciona, em sentido anti-horário, a peça em 90 graus.
+    #  @param self Ponteiro para o próprio objeto.
+    def rotate_anticlockwise(self):
         self._rotate(clockwise=True)
 
     def _rotate(self, clockwise: bool):
@@ -45,11 +60,15 @@ class Peca:
                 return False
         return True
 
+    ## Testa se o tetromino colidiu com outra peça.
+    #  @param self Ponteiro para o próprio objeto.
+    #  @param screen Instância de uma {@link Tela}.
+    #  @returns True caso a peça atual colidiu, False caso contrário.
+
     def is_tetromino_collided(self, screen):
         for block in self.blocks:
             block_row = block["row"] + self.row
             block_col = block["col"] + self.col
-            print(block_row, screen.rows)
             # Teste para decidir se o tetromino está no chão.
             if block_row >= screen.rows:
                 return True
@@ -69,12 +88,13 @@ class O(Peca):
             {"row": 0, "col": 1},
             {"row": 1, "col": 1},
         ]
+        self.symbol = "+"
 
-    def rotate_left(self):
+    def rotate_clockwise(self):
         """Como o quadrado não é modificado após uma rotação, a função não fará nada"""
         pass
 
-    def rotate_right(self):
+    def rotate_anticlockwise(self):
         pass
 
 
@@ -87,6 +107,7 @@ class S(Peca):
             {"row": 0, "col": 1},
             {"row": 1, "col": -1},
         ]
+        self.symbol = "%"
 
 
 class J(Peca):
@@ -98,6 +119,7 @@ class J(Peca):
             {"row": 0, "col": -1},
             {"row": 1, "col": 1},
         ]
+        self.symbol = "#"
 
 
 class L(Peca):
@@ -109,6 +131,7 @@ class L(Peca):
             {"row": 0, "col": -1},
             {"row": 1, "col": -1},
         ]
+        self.symbol = "@"
 
 
 class T(Peca):
@@ -120,6 +143,7 @@ class T(Peca):
             {"row": 0, "col": -1},
             {"row": 1, "col": 0},
         ]
+        self.symbol = "#"
 
 
 class Z(Peca):
@@ -131,6 +155,7 @@ class Z(Peca):
             {"row": 0, "col": -1},
             {"row": 1, "col": 0},
         ]
+        self.symbol = "*"
 
 
 class I(Peca):
@@ -142,3 +167,4 @@ class I(Peca):
             {"row": 0, "col": 1},
             {"row": 0, "col": 2},
         ]
+        self.symbol = "%"
