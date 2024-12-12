@@ -54,7 +54,7 @@ class Peca:
     def set_blocks(self, blocks):
         self.blocks = blocks
 
-    def is_tetromino_inside_border(self, screen):
+    def is_inside_screen(self, screen):
         for block in self.blocks:
             block_row = block["row"] + self.row
             block_col = block["col"] + self.col
@@ -68,7 +68,7 @@ class Peca:
     #  @param screen Instância de uma {@link Tela}.
     #  @returns True caso a peça atual colidiu, False caso contrário.
 
-    def is_tetromino_collided(self, screen):
+    def is_collided(self, screen):
         for block in self.blocks:
             block_row = block["row"] + self.row
             block_col = block["col"] + self.col
