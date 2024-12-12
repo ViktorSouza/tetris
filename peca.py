@@ -43,13 +43,16 @@ class Peca:
 
     def _rotate(self, clockwise: bool):
         for block in self.blocks:
-            # Translate block to origin
-
-            # Apply rotation
             if clockwise:
                 block["col"], block["row"] = block["row"], -block["col"]
             else:
                 block["col"], block["row"] = -block["row"], block["col"]
+
+    def get_blocks(self):
+        return self.blocks
+
+    def set_blocks(self, blocks):
+        self.blocks = blocks
 
     def is_tetromino_inside_border(self, screen):
         for block in self.blocks:
