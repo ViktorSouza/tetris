@@ -22,15 +22,23 @@ class Partida:
 
     def rotate_clockwise(self):
         self.current_tetromino.rotate_clockwise()
+        if not self.current_tetromino.is_inside_screen(
+            self.screen
+        ) or self.current_tetromino.is_collided(self.screen):
+            self.current_tetromino.rotate_anticlockwise()
 
     def rotate_anticlockwise(self):
         self.current_tetromino.rotate_anticlockwise()
+        if not self.current_tetromino.is_inside_screen(
+            self.screen
+        ) or self.current_tetromino.is_collided(self.screen):
+            self.current_tetromino.rotate_clockwise()
 
     def move_left(self):
         self._move_tetromino(0, -1)
 
     def move_right(self):
-        self._move_tetromino(0, -1)
+        self._move_tetromino(0, 1)
 
     def move_down(self):
         self._move_tetromino(1, 0)
