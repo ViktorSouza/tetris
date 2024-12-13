@@ -16,12 +16,13 @@ class Peca:
         ## Símbolo que representará a peça no terminal.
         self.symbol = "$"
         ## Lista de tuplas com posições dos blocos de uma peça.
-        self.blocks = [
+        self.blocks = np.array([
             {"row": 0, "col": 0},
             {"row": -1, "col": 0},
             {"row": 0, "col": 1},
             {"row": 1, "col": 1},
-        ]
+        ])
+        self.blocks
 
     ## Modifica a posição da peça, tanto linhas quanto colunas.
     #  @param self Ponteiro para o próprio objeto.

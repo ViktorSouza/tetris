@@ -2,10 +2,10 @@ import os
 import pickle
 from readchar import readkey, key
 import time
-import numpy as np
-from tela import Tela
-from peca import Peca
 from partida import Partida
+import numpy as np
+from jogo import Jogo
 
-game = Partida("Viktor", 20, 20)
-game.start()
+game = Jogo()
+game_instance = Partida("Viktor", 20, 20)
+game.play(game_instance)
