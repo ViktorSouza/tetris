@@ -7,11 +7,14 @@ class Tela:
     def __init__(self, rows: int, cols: int):
         self.rows = rows
         self.cols = cols
-        # self.grid = [[None for _ in range(cols)] for _ in range(rows)]
         self.grid = np.empty(shape=(rows, cols), dtype=str)
 
     def update_screen(self, new_screen):
         self.grid = new_screen
+
+    def remove_row(self, i: int):
+        self.grid = np.delete(self.grid, (i), axis=0)
+        self.grid = np.insert(self.grid, 0, np.full(self.cols, ""), axis=0)
 
     def copy_screen(self):
         return self.grid.copy()

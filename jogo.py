@@ -17,6 +17,8 @@ class Jogo:
 
     def play(self, game_instance: Partida):
         while True:
+            if game_instance.is_game_complete:
+                break
             tecla = readkey()
 
             game_instance.screen.remove_tetromino(game_instance.current_tetromino)
@@ -38,6 +40,8 @@ class Jogo:
                 break
             elif tecla == "g":
                 break
+
+            game_instance.full_line_check()
 
             game_instance.screen.draw_tetromino(game_instance.current_tetromino)
             os.system("cls||clear")
