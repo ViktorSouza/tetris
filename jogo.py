@@ -1,4 +1,5 @@
 from partida import Partida
+import json
 import pickle
 import os
 from readchar import readkey, key
@@ -17,10 +18,18 @@ class Jogo:
         print("- <p> para ver as 10 melhores pontuações")
         print("- <s> para sair do jogo")
         tecla = readkey()
+        while tecla not in ["i", "c", "p", "s"]:
+            tecla = readkey()
+        os.system("cls||clear")
         if tecla == "i":
             self.new_game()
         elif tecla == "c":
             self.continue_game()
+        elif tecla == "p":
+            self.top_10_scores()
+        elif tecla == "s":
+            print("Saindo do jogo...")
+            os.abort()
 
     def new_game(self):
         name = input("Digite o nome do jogador:")
@@ -28,6 +37,7 @@ class Jogo:
         cols = int(input("Digite o número de colunas da tela do jogo:"))
         self.current_game = Partida(name, rows, cols)
         self.play()
+        self.display_options()
 
     def continue_game(self):
         # Carregando o objeto do arquivo
@@ -35,6 +45,7 @@ class Jogo:
             pessoa_carregada = pickle.load(arquivo)
             self.current_game = pessoa_carregada
         self.play()
+        self.display_options()
 
     def save_game(self):
         # Salvando o objeto em um arquivo
@@ -42,11 +53,52 @@ class Jogo:
             pickle.dump(self.current_game, arquivo)
 
     def top_10_scores(self):
-        pass
+        print("Lista das 10 melhores pontuações:")
+        with open("scores.json", "r") as f:
+            data: list = json.load(f)
+            data.sort(key=lambda x: x["score"], reverse=True)
+            data = data[:10]
+            for play in data:
+                print(f"{play['player']}: {play['score']}")
+        print()
+
+        self.display_options()
+
+    def save_score(self):
+        if not os.path.exists("scores.json"):
+            # Se o arquivo não existir, será criado com uma lista vazia
+            with open("scores.json", "w") as file:
+                json.dump([], file)
+
+        data = {
+            "player": self.current_game.player,
+            "score": self.current_game.score,
+        }
+
+        with open("scores.json", "r+") as f:
+            res = json.load(f)
+            res.append(data)
+            f.seek(0)
+
+            json.dump(res, f, indent=4)
+            f.truncate()
 
     def play(self):
+        os.system("cls||clear")
+        self.current_game.screen.draw_tetromino(self.current_game.current_tetromino)
+        self.current_game.screen.show_screen()
+        print(f"Pontuação: {self.current_game.score}")
+        print("Teclas do jogo:")
+        print("← move esquerda | → move direita | ↓ move baixo")
+        print("<Page Down> rotaciona esquerda | <Page Up> rotaciona direita")
+        print("<s> sai da partida, <g> grava e sai da partida")
         while True:
             if self.current_game.is_game_complete:
+                print()
+                print("Partida finalizada!")
+                print(f"Pontuação: {self.current_game.score}")
+                print()
+                self.save_score()
                 break
             tecla = readkey()
 
@@ -79,10 +131,10 @@ class Jogo:
             os.system("cls||clear")
             self.current_game.screen.show_screen()
             print(f"Pontuação: {self.current_game.score}")
-            print(f"Teclas do jogo:")
-            print(f"← move esquerda | → move direita | ↓ move baixo")
-            print(f"<Page Down> rotaciona esquerda | <Page Up> rotaciona direita")
-            print(f"<s> sai da partida, <g> grava e sai da partida")
+            print("Teclas do jogo:")
+            print("← move esquerda | → move direita | ↓ move baixo")
+            print("<Page Down> rotaciona esquerda | <Page Up> rotaciona direita")
+            print("<s> sai da partida, <g> grava e sai da partida")
         self.display_options()
 
     def exit(self):
